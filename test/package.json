@@ -1,0 +1,11 @@
+{
+  "name": "loki-vulnerability-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Xh4H",
+  "license": "ISC",
+  "dependencies": {
+    "this-package-does-not-exist-qpwoeirty": "^1.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "loki",
+  "version": "1.0.0",
+  "description": "The dependency confusion vulnerability scanner and autoexploitation tool",
+  "type": "module",
+  "main": "bin/index.js",
+  "bin": {
+    "loki": "loki.js"
+  },
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "meow": "^10.1.2",
+    "undici": "^4.11.3",
+    "validate-npm-package-name": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xh4H/Loki.git"
+  },
+  "author": "Xh4H",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xh4H/Loki/issues"
+  },
+  "homepage": "https://github.com/Xh4H/Loki#readme"
+}
