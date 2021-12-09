@@ -1,2 +1,3 @@
-# Loki
-The dependency confusion vulnerability scanner and autoexploitation tool
+<div align="center">
+    <p> <img src="https://xh4h.com/uploads/loki.png" alt="Discord.jl"/> </p>
+</div>
