@@ -11,6 +11,21 @@ function log(message) {
     console.log(chalk.rgb(247, 30, 56)('[Loki]'), message)
 }
 
+function success(message) {
+    if (!message) return;
+    log(chalk.rgb(0, 255, 0)(message))
+}
+
+function error(message) {
+    if (!message) return;
+    log(chalk.rgb(255, 0, 0)(message))
+}
+
+function warning(message) {
+    if (!message) return;
+    log(chalk.rgb(255, 255, 0)(message))
+}
+
 function getVersion(pkg) {
     const matches = pkg.match(/(\d+\.\d+\.\d+)/);
     return matches ? matches[1] : '1.0.0'; // default to 1.0.0
@@ -28,13 +43,16 @@ function createPackage(pkg, version) {
     return manager.createPackage(pkg, version) // return the promise
 }
 
-function handleSubmissions(submissions) {
-    Promise.all(submissions).then(submission => {
-        console.log("promise resolved")
-        console.log(submission[0])
-        console.log(submission[0].status)
-        console.log(submission[0].response)
-    })
+async function handleSubmission(submission) {
+    const { manifest, job } = submission
+    const response = await job
+
+    if (response.status === 200) {
+        success(`Package created successfully, available at \"${response.url}\"`)
+        success(`Package data: ${manifest.name}@${manifest.version}`)
+    } else {
+        error(`Package creation failed, status code: ${response.status}`)
+    }
 }
 
 async function setup({ pkgs, directory, entrypoint, accesstoken }) {
@@ -43,7 +61,7 @@ async function setup({ pkgs, directory, entrypoint, accesstoken }) {
     const is_valid_token = await manager.verifyToken()
 
     if (is_valid_token.error || !is_valid_token.success) {
-        log('Token provided is not valid. Make sure it is not readonly.')
+        error('Token provided is not valid. Make sure it is not readonly.')
         process.exit(-1)
     }
 
@@ -51,24 +69,26 @@ async function setup({ pkgs, directory, entrypoint, accesstoken }) {
     await getProfile()
 
     // loop through the results
-    let submissions = []
     for (const pkg in pkgs) {
         if (Object.prototype.hasOwnProperty.call(pkgs, pkg)) {
             const state = pkgs[pkg];
 
             if (state === 'vulnerable') {
                 const target_version = getVersion(dependencies[pkg]);
-                submissions.push(createPackage({
+
+                success(`${pkg}@${target_version} is vulnerable.`)
+                log(`Creating package ${pkg}@${target_version}.`)
+
+                await handleSubmission(await createPackage({
                     pkg,
                     directory,
                     version: target_version
                 }))
+            } else if (state === 'suspicious') {
+                warning(`${pkg} is suspicious. Proceed with manual investigation.`)
             }
-
         }
     }
-
-    handleSubmissions(submissions)
 }
 
 export { setup }

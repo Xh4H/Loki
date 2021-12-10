@@ -10,17 +10,16 @@ const OPTS = {
 }
 
 class PackageManager {
-    constructor({ pkg, version, directory, username, token}) {
+    constructor({ pkg, version, directory, token }) {
         this.pkg = pkg
         this.version = version
-        this.directory = `${directory}/_loki_packages`
+        this.loki_directory = `${directory}/_loki_packages`
+        this.directory = `${this.loki_directory}/${this.pkg}`
         this.token = token
     }
 
     async impersonatePackage() {
-        if (!fs.existsSync(this.directory)) {
-            fs.mkdirSync(this.directory)
-        }
+        fs.mkdirSync(this.directory, { recursive: true })
 
         const package_json = JSON.stringify({
             name: this.pkg,
@@ -39,13 +38,16 @@ class PackageManager {
         }
         const tarData = await pack(`file:${this.directory}`, { ...OPTS})
 
-        return publish(manifest, tarData, {
-            ...OPTS,
-            npmVersion: this.version,
-            forceAuth: {
-                token: this.token
-            }
-        })
+        return {
+            manifest,
+            job: publish(manifest, tarData, {
+                ...OPTS,
+                npmVersion: this.version,
+                forceAuth: {
+                    token: this.token
+                }
+            })
+        }
     }
 }
 

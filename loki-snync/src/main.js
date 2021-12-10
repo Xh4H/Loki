@@ -17,9 +17,7 @@ async function testProject({ projectPath, log, debugMode, privatePackagesList = 
   const { nonScopedDependencies } = parser.classifyScopedDependencies(allDependencies)
   // @TODO warn the user about `scopedDeps` and `scopedDependencies` to make sure they own it
 
-  log()
   log('Reviewing your dependencies...')
-  log()
 
   const snapshots = repoManager.getFileSnapshots({ filepath: 'package.json' })
   const earliestSnapshotPerDependency = parser.getEarliestSnapshotPerDependency({ snapshots })
@@ -63,14 +61,15 @@ async function testProject({ projectPath, log, debugMode, privatePackagesList = 
 
     if (status) {
       results[dependency] = status.match(/.*(vulnerable|suspicious)/)[1]
-      log('  -> ', status)
+    } else {
+      log(`${dependency} does not seem to be vulnerable.`)
     }
 
     if (debugMode && earliestSnapshotPerDependency[dependency]) {
-      log('  -> introduced via commit sha: ', earliestSnapshotPerDependency[dependency].hash)
+      log('  -> introduced via commit sha: ' + earliestSnapshotPerDependency[dependency].hash)
     }
   }
-
+  log('Scanning suspicious packages ...')
   return results
 }
 

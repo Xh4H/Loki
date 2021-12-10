@@ -16,6 +16,7 @@ const cli = meow(chalk.rgb(247, 30, 56)(`
     --accesstoken -a   Access token for npmjs.com
 `), {
     importMeta: import.meta,
+    description: false,
     flags: {
         directory: {
             type: 'string',
@@ -37,12 +38,21 @@ const cli = meow(chalk.rgb(247, 30, 56)(`
     }
 });
 
-function log(message, status) {
+function log(message) {
     if (!message) return;
-    console.log(chalk.rgb(247, 30, 56)(message, status))
+    console.log(chalk.rgb(247, 30, 56)('[Loki]'), message)
 }
-
+function greet() {
+    console.log(chalk.rgb(247, 30, 56)(`  _____       ___   ___  ____   _____  
+ |_   _|    .'   \`.|_  ||_  _| |_   _| 
+   | |     /  .-.  \\ | |_/ /     | |   
+   | |   _ | |   | | |  __'.     | |   
+  _| |__/ |\\  \`-'  /_| |  \\ \\_  _| |_  
+ |________| \`.___.'|____||____||_____| 
+                                      ` + '\n' + '[X] The Dependency Confusion vulnerability scanner and autoexploitation tool [X]'))
+}
 async function start() {
+    greet()
     const { flags } = cli;
     const { directory, entrypoint, accesstoken } = flags;
 
@@ -56,9 +66,6 @@ async function start() {
         process.exit(-1)
     }
 
-    //const { scan } = await import('./index');
-    //const result = await scan(directory, input);
-    //console.log(result);
     const pkgs = await scan({
         projectPath: directory,
         log
