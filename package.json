@@ -12,8 +12,8 @@
     "libnpmpack": "^3.0.0",
     "libnpmpublish": "^4.0.2",
     "meow": "^10.1.2",
+    "netcat": "^1.5.0",
     "npm-profile": "^5.0.4",
-    "ssri": "^8.0.1",
     "undici": "^4.11.3",
     "validate-npm-package-name": "^3.0.0"
   },

