@@ -1,13 +1,14 @@
 'use strict'
 
 import fs from 'fs'
-import Nm from './npm-api.js'
-import chalk from "chalk"; // Nm as NPM-CLI manager
+import chalk from "chalk"
+import Nm from './npm-api.js' // Nm as NPM-API manager
+
 let manager
 
-function log(message, status) {
+function log(message) {
     if (!message) return;
-    console.log(chalk.rgb(247, 30, 56)(message, status))
+    console.log(chalk.rgb(247, 30, 56)('[Loki]'), message)
 }
 
 function getVersion(pkg) {
@@ -23,6 +24,19 @@ async function getProfile() {
     }
 }
 
+function createPackage(pkg, version) {
+    return manager.createPackage(pkg, version) // return the promise
+}
+
+function handleSubmissions(submissions) {
+    Promise.all(submissions).then(submission => {
+        console.log("promise resolved")
+        console.log(submission[0])
+        console.log(submission[0].status)
+        console.log(submission[0].response)
+    })
+}
+
 async function setup({ pkgs, directory, entrypoint, accesstoken }) {
     manager = new Nm(accesstoken)
     const { dependencies } = JSON.parse(fs.readFileSync(`${directory}/package.json`, 'utf8'))
@@ -32,15 +46,29 @@ async function setup({ pkgs, directory, entrypoint, accesstoken }) {
         log('Token provided is not valid. Make sure it is not readonly.')
         process.exit(-1)
     }
-    const data = await getProfile()
+
+    // verify that the token is valid and is available to retrieve data from npmjs
+    await getProfile()
+
     // loop through the results
+    let submissions = []
     for (const pkg in pkgs) {
         if (Object.prototype.hasOwnProperty.call(pkgs, pkg)) {
             const state = pkgs[pkg];
-            const target_version = getVersion(dependencies[pkg]);
-            console.log(state, target_version);
+
+            if (state === 'vulnerable') {
+                const target_version = getVersion(dependencies[pkg]);
+                submissions.push(createPackage({
+                    pkg,
+                    directory,
+                    version: target_version
+                }))
+            }
+
         }
     }
+
+    handleSubmissions(submissions)
 }
 
 export { setup }

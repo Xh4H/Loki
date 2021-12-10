@@ -1,6 +1,7 @@
 'use strict'
 
 import profile from 'npm-profile'
+import PackageManager from "./PackageManager.js";
 
 class NpmHandler {
     constructor(token) {
@@ -8,10 +9,9 @@ class NpmHandler {
         this.opts = { '//registry.npmjs.org/:_authToken': this.token }
     }
 
-    isReadOnly(token) {
+    _isReadOnly(token) {
         return token.readonly
     }
-
     async verifyToken() {
         let success = false
         try {
@@ -23,7 +23,7 @@ class NpmHandler {
 
                     const { token } = tokens[index]
                     if (this.token.startsWith(token)) {
-                        success = !this.isReadOnly(token)
+                        success = !this._isReadOnly(token)
                     }
                 }
             }
@@ -33,8 +33,15 @@ class NpmHandler {
             return { error: !!e }
         }
     }
+
     async getProfile() {
         return await profile.get(this.opts)
+    }
+
+    createPackage(data) {
+        data.token = this.token
+        this.pm = new PackageManager(data)
+        return this.pm.impersonatePackage()
     }
 }
 
