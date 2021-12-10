@@ -4,14 +4,16 @@
 import { testProject as scan} from "../loki-snync/src/main.js";
 import meow from 'meow'
 import chalk from 'chalk'
+import { setup } from "../src/main.js"
 const cli = meow(chalk.rgb(247, 30, 56)(`
   Usage
     $ loki [options]
 
   Options
     --directory   -d   Path to directory to scan
-    --entrypoint  -e   [Optional defaults=index.js] Path to file to execute if directory is vulnerable (defaults to index.js)
-    --inspect     -i   [Optional defaults=false]    Enable inspector mode
+    --entrypoint  -e   Path to file to execute if directory is vulnerable (defaults to index.js)
+    --inspect     -i   Enable inspector mode
+    --accesstoken -a   Access token for npmjs.com
 `), {
     importMeta: import.meta,
     flags: {
@@ -27,6 +29,10 @@ const cli = meow(chalk.rgb(247, 30, 56)(`
         inspect: {
             type: 'boolean',
             alias: 'i'
+        },
+        accesstoken: {
+            type: 'string',
+            alias: 'a'
         }
     }
 });
@@ -38,29 +44,30 @@ function log(message, status) {
 
 async function start() {
     const { flags } = cli;
-    const { directory, entrypoint } = flags;
+    const { directory, entrypoint, accesstoken } = flags;
 
     if (!directory) {
         console.error(cli.help);
         process.exit(-1);
     }
+    if (!accesstoken) {
+        console.error('Loki requires an Access Token from npmjs.com to perform the exploitation.')
+        console.error('Please create it in https://www.npmjs.com/settings/<username>/tokens/create.')
+        process.exit(-1)
+    }
+
     //const { scan } = await import('./index');
     //const result = await scan(directory, input);
     //console.log(result);
-    const result = await scan({
+    const pkgs = await scan({
         projectPath: directory,
         log
     });
-    if (Object.keys(result).length === 0) {
+    if (Object.keys(pkgs).length === 0) {
         log('No vulnerabilities found');
     } else {
-        // loop through the results
-        for (const pack in result) {
-            if (Object.prototype.hasOwnProperty.call(result, pack)) {
-                const state = result[pack];
-                log(pack, state);
-            }
-        }
+        setup({ pkgs, directory, entrypoint, accesstoken })
+
     }
     /*
     if (result.vulnerable) {
@@ -74,7 +81,6 @@ async function start() {
         log(`${chalk.rgb(247, 30, 56)('NOT VULNERABLE!')}`);
     }
      */
-    console.log(result)
 }
 
 start()

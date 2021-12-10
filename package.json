@@ -10,6 +10,7 @@
   "dependencies": {
     "chalk": "^5.0.0",
     "meow": "^10.1.2",
+    "npm-profile": "^5.0.4",
     "undici": "^4.11.3",
     "validate-npm-package-name": "^3.0.0"
   },
