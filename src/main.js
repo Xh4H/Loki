@@ -54,7 +54,7 @@ async function handleSubmission(submission, shell_data, entrypoint) {
 			log(`Performing attack using ${manifest.name}@${manifest.version}`);
 			const result = manager.pm.insertPayload(entrypoint);
 			if (result) {
-				success('Payload injected successfully');
+				success(`Payload injected successfully with the following details: host=${shell_data.host} & port=${shell_data.port}`);
 				log('Installing dependencies to download impersonated package.');
 				manager.pm.installDependencies();
 
