@@ -11,7 +11,7 @@
   "author": "Xh4H",
   "license": "ISC",
   "dependencies": {
-    "this-dependency-does-not-exist-htb123": "^1.1.0",
+    "loki-this-dependency-does-not-exist": "^1.1.0",
     "axios": "^0.24.0"
   }
 }
