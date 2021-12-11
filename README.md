@@ -10,6 +10,7 @@
  <a href="./LICENSE"><img src="https://badgen.net/github/license/Xh4H/Loki" alt="License" /></a>
 </div>
 
+## About
 **Loki** helps to identify `NodeJS` projects that are vulnerable to **Dependency Confusion supply chain** attacks.
 
 **Loki** has been created with the goal of helping developers to scan their projects and identifying possible attack vectors that could take advantage of vulnerabilities in the dependency supply chain.
