@@ -40,11 +40,24 @@
 * Attack mode (PoC after successful payload injection)
 * Inspector mode (display hash of commit that introduced the vulnerable package if the directory to scan is a git repository)
 
-
 ## Usage
-```
-$ loki [options]
+### Prerequisite
+To use this tool, it is expected that you have the following available in your environment:
 
+- Node.js and npm in stable and recent versions
+- The Git binary available in your path
+
+### If downloaded from the repository:
+```
+$ node bin/loki.js [options]
+```
+### Using npx:
+```
+$ npx @xh4h/loki [options]
+```
+
+### Options
+```
 Options
 --directory   -d   Path to directory to scan
 --entrypoint  -e   Path to file to execute if directory is vulnerable (defaults to index.js)
