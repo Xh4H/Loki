@@ -10,7 +10,7 @@
  <a href="./LICENSE"><img src="https://badgen.net/github/license/Xh4H/Loki" alt="License" /></a>
 </div>
 
-**Loki** helps identifying `NodeJS` projects that are vulnerable to **Dependency Confusion supply chain** attacks.
+**Loki** helps to identify `NodeJS` projects that are vulnerable to **Dependency Confusion supply chain** attacks.
 
 **Loki** has been created with the goal of helping developers to scan their projects and identifying possible attack vectors that could take advantage of vulnerabilities in the dependency supply chain.
 
@@ -18,7 +18,7 @@
 **Loki** is a PoC. The attack mode simply inserts a payload opening a listener service to allow the developer to connect to the compromised dependency with the sole purpose of showing the impact of a misconfigured module.
 
 ## When may a Dependency Confusion supply chain attack happen?
-**Depency Confusion** attacks may occur if:
+**Dependency Confusion** attacks may occur if:
 * A company uses a hybrid approach to download their dependencies from both their internal repositories and public repositories.
 * A developer has not properly configured a project's `npm` registry. A lightweight private npm proxy registry such as [Verdaccio](https://verdaccio.org/) can be configured.
 * A typo in the name of a dependency may lead to an untrusted dependency being downloaded from the wrong repository. Better known as typosquatting.
@@ -58,7 +58,7 @@ Options
 ## Example
 
 <div align="center">
-    <p> <img src="https://xh4h.com/uploads/loki-carbon.png"/> </p>
+    <p> <img src="https://xh4h.com/uploads/loki-carbon.png" alt="Loki example"/> </p>
 </div>
 
 
