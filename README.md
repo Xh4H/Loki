@@ -4,11 +4,15 @@
 
 **Loki** helps identifying `NodeJS` projects that are vulnerable to **Dependency Confusion supply chain** attacks.
 
-This tool has been created with the goal of helping developers to scan their projects and identifying possible attack vectors that could take advantage of vulnerabilities in the dependency supply chain.
+**Loki** has been created with the goal of helping developers to scan their projects and identifying possible attack vectors that could take advantage of vulnerabilities in the dependency supply chain.
 
-**Depency Confusion** attacks may occur when:
+## Disclaimer
+**Loki** is a PoC. The attack mode simply inserts a payload opening a listener service to allow the developer to connect to the compromised dependency with the sole purpose of showing the impact of a misconfigured module.
+
+## When may a Dependency Confusion supply chain attack happen?
+**Depency Confusion** attacks may occur if:
 * A company uses a hybrid approach to download their dependencies from both their internal repositories and public repositories.
-* A developer has not properly configured a project's `npm` registry. A lightweight private npm proxy registry such as [Verdaccio](https://verdaccio.org/) can be configured. Once installed, the following command can be used: `npm config set registry=http://localhost:4873/` 
+* A developer has not properly configured a project's `npm` registry. A lightweight private npm proxy registry such as [Verdaccio](https://verdaccio.org/) can be configured.
 * A typo in the name of a dependency may lead to an untrusted dependency being downloaded from the wrong repository. Better known as typosquatting.
 * The version specified of the wanted dependency in the `package.json` file allows downloading newer versions. Having such `"loki-this-dependency-does-not-exist": "^1.1.0"` dependency allows downloading the latest version of the dependency from `1.1.0` up to, but not including, `2.0.0`. Similar interaction happens with `tilde` `~`. If a project has an hybrid setup, if the public repository `such as npmjs.org` contains a higher version compared with the private repository, the public one will be downloaded.
 * A package name has a different import name. If a junior developer, by reading the code, expects the installation name of a package used in the repository is the same as the `import`. As an example, we can have a look at the Python image processing library `OpenCV` whose import name is `cv2` but the correct `pip install` command to install it is `pip install opencv-python`.
