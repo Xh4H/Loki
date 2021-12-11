@@ -8,14 +8,15 @@
     "SharedArrayBuffer": "readonly"
   },
   "ignorePatterns": [
-    "test/"
+    "test/", "node_modules/"
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module"
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
   "rules": {
-    "indent": ["error", 4],
+    "indent": [2, "tab"],
     "quotes": [2, "single"],
     "semi": [2, "always"]
   }
