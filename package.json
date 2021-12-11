@@ -4,11 +4,19 @@
   "description": "The dependency confusion vulnerability scanner and autoexploitation tool",
   "type": "module",
   "main": "bin/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "bin": {
-    "loki": "loki.js"
+    "loki": "./bin/loki.js"
+  },
+  "engines": {
+    "node": ">=12"
   },
   "dependencies": {
     "chalk": "^5.0.0",
+    "eslint": "^8.4.1",
     "libnpmpack": "^3.0.0",
     "libnpmpublish": "^4.0.2",
     "meow": "^10.1.2",
@@ -18,9 +26,6 @@
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Xh4H/Loki.git"

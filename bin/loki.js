@@ -93,20 +93,7 @@ async function start() {
             port
         }
         setup({ pkgs, directory, entrypoint, accesstoken, shell_data })
-
     }
-    /*
-    if (result.vulnerable) {
-        log(`${chalk.rgb(247, 30, 56)('VULNERABLE!')} ${chalk.rgb(247, 30, 56)(`${result.vulnerable}`)}`);
-        log(`${chalk.rgb(247, 30, 56)('EXECUTING:')} ${chalk.rgb(247, 30, 56)(`${entrypoint}`)}`);
-        const { exec } = await import('child_process');
-        exec(`node ${directory}/${entrypoint}`, {
-            cwd: directory
-        });
-    } else {
-        log(`${chalk.rgb(247, 30, 56)('NOT VULNERABLE!')}`);
-    }
-     */
 }
 
 start()
