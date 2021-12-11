@@ -1,6 +1,6 @@
 {
   "name": "@xh4h/loki",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The dependency confusion vulnerability scanner and autoexploitation tool",
   "type": "module",
   "main": "bin/index.js",
@@ -30,6 +30,7 @@
     "type": "git",
     "url": "git+https://github.com/Xh4H/Loki.git"
   },
+  "keywords": ["exploit", "supply", "chain", "attacks", "confusion", "dependency", "vulnerability-scanners", "mitigation"],
   "author": "Xh4H",
   "license": "ISC",
   "bugs": {
