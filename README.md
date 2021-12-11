@@ -76,4 +76,8 @@ Options
 </div>
 
 
-## 
+## Contributing
+[Contributing Guide](CONTRIBUTING.md)
+
+## License
+[MIT](LICENSE)
