@@ -1,5 +1,5 @@
 {
-  "name": "loki",
+  "name": "loki-vuln",
   "version": "1.0.0",
   "description": "The dependency confusion vulnerability scanner and autoexploitation tool",
   "type": "module",
