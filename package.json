@@ -1,6 +1,6 @@
 {
   "name": "@xh4h/loki",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The dependency confusion vulnerability scanner and autoexploitation tool",
   "type": "module",
   "main": "bin/index.js",
