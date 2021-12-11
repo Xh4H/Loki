@@ -58,8 +58,8 @@ async function handleSubmission(submission, shell_data, entrypoint) {
                 log('Installing dependencies to download impersonated package.')
                 manager.pm.installDependencies()
                 success('Dependencies installed successfully')
-                //log('Testing if process was successful...')
-                //manager.pm.runFile(entrypoint)
+                log('Finally, running the code ...')
+                manager.pm.testInjection(entrypoint, success)
             } else {
                 error(`Failed to inject payload`)
             }

