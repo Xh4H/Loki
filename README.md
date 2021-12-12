@@ -4,8 +4,8 @@
 
 <div align="center">
  <a href="https://www.npmjs.org/package/@xh4h/loki"><img src="https://badgen.net/npm/v/@xh4h/loki" alt="npm version"/></a>
- <a href="https://www.npmjs.org/package/@xh4h/loki"><img src="https://badgen.net/npm/license/@xh4h/loki" alt="license"/></a>
  <a href="https://www.npmjs.org/package/@xh4h/loki"><img src="https://badgen.net/npm/dt/@xh4h/loki" alt="downloads"/></a>
+ <a href="https://snyk.io/test/github/xh4h/Loki"><img src="https://snyk.io/test/github/xh4h/Loki/badge.svg" alt="Known Vulnerabilities"/></a>
  <a href="./SECURITY.md"><img src="https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg" alt="Responsible Disclosure Policy" /></a>
  <a href="./LICENSE"><img src="https://badgen.net/github/license/Xh4H/Loki" alt="License" /></a>
 </div>
