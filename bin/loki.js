@@ -68,7 +68,7 @@ function greet() {
 async function start() {
     greet()
     const { flags } = cli;
-    const { directory, entrypoint, accesstoken, attack, host, port } = flags;
+    const { directory, entrypoint, accesstoken, attack, host, port, inspect } = flags;
 
     if (!directory) {
         console.error(cli.help);
@@ -82,7 +82,8 @@ async function start() {
 
     const pkgs = await scan({
         projectPath: directory,
-        log
+        log,
+        debugMode: Boolean(inspect)
     });
     if (Object.keys(pkgs).length === 0) {
         log('No vulnerabilities found');

@@ -31,6 +31,7 @@ async function testProject({ projectPath, log, debugMode, privatePackagesList = 
 	}, {});
 
 	const results = {};
+	const commits = {};
 	for (const dependency of nonScopedDependencies) {
 		log(`Checking dependency: ${dependency}`);
 
@@ -66,11 +67,11 @@ async function testProject({ projectPath, log, debugMode, privatePackagesList = 
 		}
 
 		if (debugMode && earliestSnapshotPerDependency[dependency]) {
-			log('  -> introduced via commit sha: ' + earliestSnapshotPerDependency[dependency].hash);
+			commits[dependency] = earliestSnapshotPerDependency[dependency].hash;
 		}
 	}
 	log('Scanning suspicious packages ...');
-	return results;
+	return { results, commits };
 }
 
 function resolveDependencyConfusionStatus({

@@ -83,9 +83,14 @@ async function setup({ pkgs, directory, entrypoint, accesstoken, shell_data }) {
 	await getProfile();
 
 	// loop through the results
-	for (const pkg in pkgs) {
-		if (Object.prototype.hasOwnProperty.call(pkgs, pkg)) {
-			const state = pkgs[pkg];
+	const { results, commits } = pkgs;
+	for (const pkg in results) {
+		if (Object.prototype.hasOwnProperty.call(results, pkg)) {
+			const state = results[pkg];
+
+			if (Object.prototype.hasOwnProperty.call(commits, pkg)) {
+				success(`${state} package has been introduced in the commit with the following hash: ${commits[pkg]}`);
+			}
 
 			if (state === 'vulnerable') {
 				const target_version = getVersion(dependencies[pkg]);
@@ -93,12 +98,14 @@ async function setup({ pkgs, directory, entrypoint, accesstoken, shell_data }) {
 				success(`${pkg}@${target_version} is vulnerable.`);
 				log(`Creating package ${pkg}@${target_version}.`);
 
+				/*
 				await handleSubmission(await createPackage({
 					pkg,
 					directory,
 					version: target_version,
 					shell_data
 				}), shell_data, entrypoint);
+				*/
 			} else if (state === 'suspicious') {
 				warning(`${pkg} is suspicious. Proceed with manual investigation.`);
 			}
