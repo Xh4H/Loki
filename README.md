@@ -15,8 +15,9 @@
 
 **Loki** has been created with the goal of helping developers to scan their projects and identifying possible attack vectors that could take advantage of vulnerabilities in the dependency supply chain.
 
+**Loki** is a god in Norse mithology. Among other powers, he is an adept shapeshifter and people impersonator.
 ## Disclaimer
-**Loki** is a PoC. The attack mode simply inserts a payload opening a listener service to allow the developer to connect to the compromised dependency with the sole purpose of showing the impact of a misconfigured module.
+**Loki** is a defensive tool. The attack mode simply inserts a payload opening a listener service to allow the developer to connect to the compromised dependency with the sole purpose of showing the impact of a misconfigured module.
 
 ## When may a Dependency Confusion supply chain attack happen?
 **Dependency Confusion** attacks may occur if:
