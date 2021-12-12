@@ -85,3 +85,6 @@ Options
 
 ## License
 [MIT](LICENSE)
+
+## Credits
+Big thanks to the [Snyk](https://snyk.io/) team for their work on [snync](https://github.com/snyk-labs/snync) as **Loki** uses a modified version of their tool.

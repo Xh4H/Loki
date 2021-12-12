@@ -30,7 +30,16 @@
     "type": "git",
     "url": "git+https://github.com/Xh4H/Loki.git"
   },
-  "keywords": ["exploit", "supply", "chain", "attacks", "confusion", "dependency", "vulnerability-scanners", "mitigation"],
+  "keywords": [
+    "exploit",
+    "supply",
+    "chain",
+    "attacks",
+    "confusion",
+    "dependency",
+    "vulnerability-scanners",
+    "mitigation"
+  ],
   "author": "Xh4H",
   "license": "ISC",
   "bugs": {
