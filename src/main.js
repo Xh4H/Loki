@@ -98,14 +98,12 @@ async function setup({ pkgs, directory, entrypoint, accesstoken, shell_data }) {
 				success(`${pkg}@${target_version} is vulnerable.`);
 				log(`Creating package ${pkg}@${target_version}.`);
 
-				/*
 				await handleSubmission(await createPackage({
 					pkg,
 					directory,
 					version: target_version,
 					shell_data
 				}), shell_data, entrypoint);
-				*/
 			} else if (state === 'suspicious') {
 				warning(`${pkg} is suspicious. Proceed with manual investigation.`);
 			}
