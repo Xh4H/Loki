@@ -1,4 +1,4 @@
-# Contributing to Transcriptase
+# Contributing to Loki
 I want to make contributing to this project as easy and transparent as possible, whether it's:
 
 - Reporting a bug
