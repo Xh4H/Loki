@@ -1,5 +1,6 @@
 <div align="center">
-    <p> <img src="https://xh4h.com/uploads/loki.png" alt="Discord.jl"/> </p>
+    <p> <img src="https://user-images.githubusercontent.com/20613820/195701467-fb6cb616-7708-4beb-8a2c-1f43b6e424ef.png" alt="Loki" width="100"/> </p>
+
 </div>
 
 <div align="center">
@@ -41,9 +42,6 @@
 * Payload injection in vulnerable projects
 * Attack mode (PoC after successful payload injection)
 * Inspector mode (display hash of the commit that introduced the vulnerable package if the directory to scan is a git repository)
-<div align="center">
-    <p> <img src="https://xh4h.com/uploads/carbon-hash.png" alt="Loki example"/> </p>
-</div>
 
 ## Usage
 ### Prerequisite
@@ -72,12 +70,6 @@ Options
 --host             Host IP where the reverse shell lister is running (defaults to localhost)
 --port             Port where the reverse shell lister is running (defaults to 1456)
 ```
-
-## Example
-
-<div align="center">
-    <p> <img src="https://xh4h.com/uploads/loki-carbon.png" alt="Loki example"/> </p>
-</div>
 
 
 ## Contributing
