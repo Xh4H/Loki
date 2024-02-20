@@ -67,8 +67,8 @@ Options
 --inspect     -i   Enable inspector mode
 --accesstoken -a   Access token for npmjs.com
 --attack           Whether to attack the project
---host             Host IP where the reverse shell lister is running (defaults to localhost)
---port             Port where the reverse shell lister is running (defaults to 1456)
+--host             Host IP where the reverse shell listener is running (defaults to localhost)
+--port             Port where the reverse shell listener is running (defaults to 1456)
 ```
 
 
